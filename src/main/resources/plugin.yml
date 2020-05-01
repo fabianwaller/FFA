@@ -1,0 +1,11 @@
+name: FFA
+version: 1.1
+author: Rewex
+main: de.rewex.ffa.Main
+commands:
+  build: #server.build
+  setlocation: #ffa.setlocation
+    aliases: [setloc]
+  stats:
+  spawn:
+    aliases: [s]
