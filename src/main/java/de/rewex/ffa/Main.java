@@ -2,11 +2,16 @@ package de.rewex.ffa;
 
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.event.IEventManager;
+import de.rewex.ffa.chat.ChatListeners;
 import de.rewex.ffa.commands.BuildCmd;
 import de.rewex.ffa.commands.SetlocCmd;
 import de.rewex.ffa.commands.SpawnCmd;
 import de.rewex.ffa.commands.StatsCmd;
 import de.rewex.ffa.listeners.ConnectListeners;
+import de.rewex.ffa.listeners.KillListeners;
+import de.rewex.ffa.listeners.MapProtect;
+import de.rewex.ffa.listeners.PlayerListeners;
+import de.rewex.ffa.manager.AntilabyFeatures;
 import de.rewex.ffa.manager.ScoreAPI;
 import de.rewex.mysql.MySQL;
 import org.bukkit.Bukkit;
@@ -72,9 +77,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private void registerListeners() {
         PluginManager pm = Bukkit.getPluginManager();
 
+        //de.rewex.ffa.chat
+        pm.registerEvents(new ChatListeners(), this);
+
         //de.rewex.ffa.listeners
         pm.registerEvents(new ConnectListeners(), this);
+        pm.registerEvents(new KillListeners(), this);
+        pm.registerEvents(new MapProtect(), this);
+        pm.registerEvents(new PlayerListeners(), this);
 
+        //de.rewex.ffa.manager
+        pm.registerEvents(new AntilabyFeatures(), this);
 
     }
 

@@ -1,5 +1,6 @@
 package de.rewex.ffa.listeners;
 
+import de.rewex.ffa.commands.BuildCmd;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,12 +17,16 @@ public class MapProtect implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
+        if(!BuildCmd.build.contains(e.getPlayer().getName())) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        e.setCancelled(true);
+        if(!BuildCmd.build.contains(e.getPlayer().getName())) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler

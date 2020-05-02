@@ -13,13 +13,17 @@ import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import java.util.HashMap;
 
-public class KillListeners {
+public class KillListeners implements Listener {
 
     public static HashMap<String, String> fight = new HashMap();
 
@@ -34,12 +38,14 @@ public class KillListeners {
             Player k = p.getKiller();
             e.setDeathMessage(Main.prefix + RangManager.getName(p) + " §7wurde von " + RangManager.getName(k) + " §7getötet");
             k.sendMessage(Main.prefix + "§7Du hast " + RangManager.getName(p) + " §7getötet §8[§a+ §b5 Coins§8]");
-            p.sendMessage(Main.prefix + "§7Du wurdest von " + RangManager.getName(k) + " §7getötet");
+            p.sendMessage(Main.prefix + "§7Du wurdest von " + RangManager.getName(k) + " §7getötet §7§c" + getHealth(k) + " §4❤");
 
             int level = k.getLevel();
             level++;
             k.setLevel(level);
-            k.setHealth(20.0D);
+            //k.setHealth(20.0D);
+            InventoryHandler.update(k);
+            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*4,2));
 
             FFAStatsAPI.addKills(k.getUniqueId().toString(), Integer.valueOf(1));
             PlayersAPI.addCoins(k.getUniqueId().toString(), Integer.valueOf(5));
@@ -57,6 +63,7 @@ public class KillListeners {
 
         FFAStatsAPI.addDeaths(p.getUniqueId().toString(), Integer.valueOf(1));
         ScoreAPI.updateScoreboard(p);
+        fight.remove(p.getName());
         Respawn(p, 10);
     }
 
@@ -79,8 +86,7 @@ public class KillListeners {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
         InventoryHandler.setFFA(e.getPlayer());
-
-        e.getPlayer().teleport(LocationManager.getLocation("spawn"));
+        e.setRespawnLocation(LocationManager.getLocation("spawn"));
     }
 
     public void Respawn(final Player p, int Time) {
@@ -95,13 +101,20 @@ public class KillListeners {
     public void onKillstreak(PlayerLevelChangeEvent e) {
         Player k = e.getPlayer();
 
-        if ((k.getLevel() == 3) || (k.getLevel() == 5) || (k.getLevel() == 10) || (k.getLevel() == 11) || (k.getLevel() == 12) || (k.getLevel() == 13)
-                || (k.getLevel() == 14) || (k.getLevel() == 15) || (k.getLevel() == 20) || (k.getLevel() == 25) || (k.getLevel() == 30)) {
+        if ((k.getLevel() == 3) || (k.getLevel() == 5) || (k.getLevel() == 10) || (k.getLevel() == 11)
+                || (k.getLevel() == 12) || (k.getLevel() == 13) || (k.getLevel() == 14) || (k.getLevel() == 15)
+                || (k.getLevel() == 20) || (k.getLevel() == 25) || (k.getLevel() == 30) || (k.getLevel() == 35)
+                || (k.getLevel() == 36) || (k.getLevel() == 37) || (k.getLevel() == 38) || (k.getLevel() == 39)
+                || (k.getLevel() == 40) || (k.getLevel() == 45) || (k.getLevel() == 50)) {
             Bukkit.broadcastMessage(Main.prefix + RangManager.getName(k) + " §7hat einen §9" + k.getLevel() + "§7-er §9Killstreak");
             k.sendMessage(Main.prefix + "§9" + k.getLevel() + "er Killstreak §7> §8[§a+ §b" + k.getLevel() + " Coins§8]");
             PlayersAPI.addCoins(k.getUniqueId().toString(), k.getLevel());
             k.playSound(k.getLocation(), Sound.LEVEL_UP, 12.0F, 12.0F);
         }
+    }
+
+    public int getHealth(Player p) {
+        return (int)StrictMath.ceil(p.getHealth());
     }
 
 }

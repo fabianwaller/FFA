@@ -1,6 +1,7 @@
 package de.rewex.ffa.commands;
 
 import de.rewex.ffa.Main;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,10 +34,12 @@ public class BuildCmd implements CommandExecutor {
         if(!build.contains(p.getName())) {
             build.add(p.getName());
             p.sendMessage(Main.prefix + "§aDu kannst jetzt bauen");
+            p.setGameMode(GameMode.CREATIVE);
             p.playSound(p.getLocation(), Sound.CLICK, 12.0F, 12.0F);
         } else {
             build.remove(p.getName());
             p.sendMessage(Main.prefix + "§cDu kannst jetzt nicht mehr bauen");
+            p.setGameMode(GameMode.CREATIVE);
             p.playSound(p.getLocation(), Sound.CLICK, 12.0F, 12.0F);
         }
 

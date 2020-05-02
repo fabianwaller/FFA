@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LocationManager {
 
-    private static File file = new File("plugins/Lobby/locations.yml");
+    private static File file = new File("plugins/FFA/locations.yml");
     private static FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
     public static void saveCfg() {

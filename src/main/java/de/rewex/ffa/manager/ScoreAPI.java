@@ -1,6 +1,7 @@
 package de.rewex.ffa.manager;
 
 import de.rewex.ffa.Main;
+import de.rewex.ffa.manager.utils.TitleAPI;
 import de.rewex.mysql.players.gamepass.GamepassManager;
 import de.rewex.mysql.players.stats.FFAStatsAPI;
 import org.bukkit.Bukkit;
@@ -31,7 +32,7 @@ public class ScoreAPI {
 
         obj.getScore("§1").setScore(12);
         obj.getScore("§8•§7● Map").setScore(11);
-        obj.getScore("§dAsteroid").setScore(10);
+        obj.getScore("§8➜ §dNature").setScore(10);
         obj.getScore("§d").setScore(9);
         obj.getScore("§8•§7● Kills").setScore(8);
         obj.getScore(updateTeam(sb, "Kills", "§8➜ §d" + kills, "", ChatColor.AQUA)).setScore(7);
@@ -83,8 +84,7 @@ public class ScoreAPI {
             sb.getTeam(team).addPlayer(all);
 
             all.setDisplayName(sb.getTeam(team).getPrefix() + all.getName());
-
-            all.setPlayerListName(sb.getTeam(team).getPrefix() + all.getName());
+            all.setPlayerListName("§d" + all.getLevel() + " " + sb.getTeam(team).getPrefix() + all.getName());
         }
         p.setScoreboard(sb);
     }
@@ -144,6 +144,9 @@ public class ScoreAPI {
             }
 
             sb.getTeam(team).addPlayer(all);
+
+            all.setDisplayName(sb.getTeam(team).getPrefix() + all.getName());
+            all.setPlayerListName("§d" + all.getLevel() + " " + sb.getTeam(team).getPrefix() + all.getName());
         }
     }
 
@@ -179,6 +182,8 @@ public class ScoreAPI {
 
                 for(Player all:Bukkit.getOnlinePlayers()) {
                     updateScoreboard(all);
+
+                    TitleAPI.sendActionBar(all, "§aTeams erlaubt");
                 }
 
 

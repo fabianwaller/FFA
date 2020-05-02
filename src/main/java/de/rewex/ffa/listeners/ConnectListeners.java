@@ -3,8 +3,10 @@ package de.rewex.ffa.listeners;
 import de.rewex.ffa.Main;
 import de.rewex.ffa.manager.InventoryHandler;
 import de.rewex.ffa.manager.RangManager;
+import de.rewex.ffa.manager.ScoreAPI;
 import de.rewex.ffa.manager.utils.TitleAPI;
 import de.rewex.mysql.players.stats.FFAStatsAPI;
+import de.rewex.mysql.players.stats.PlayersAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ConnectListeners implements Listener {
 
@@ -26,10 +30,10 @@ public class ConnectListeners implements Listener {
 
 
 
-        //Main.getInstance().updateMotd();
+        Main.getInstance().updateMotd();
 
-        TitleAPI.sendTitle(p, 5, 50, 5, "§d§lFFA", "§fClassic");
-        //ScoreAPI.setScoreboard(p);
+        TitleAPI.sendTitle(p, 5, 60, 5, "§d§lFFA", "§fNature");
+        ScoreAPI.setScoreboard(p);
         TitleAPI.sendTabTitle(p, "\n   §9§lRewex.de §8× §7Dein Minigames Netzwerk   "
                         + "\n§7Derzeitiger Server §8× §dFFA #1"
                         + "\n ",
@@ -52,11 +56,13 @@ public class ConnectListeners implements Listener {
             int level = k.getLevel();
             level++;
             k.setLevel(level);
-            k.setHealth(20.0D);
-
+            //k.setHealth(20.0D);
+            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*4,2));
+            InventoryHandler.update(k);
 
             FFAStatsAPI.addKills(k.getUniqueId().toString(), Integer.valueOf(1));
-            //PlayersAPI.addCoins(k.getUniqueId().toString(), Integer.valueOf(5));
+            FFAStatsAPI.addDeaths(e.getPlayer().getUniqueId().toString(), Integer.valueOf(1));
+            PlayersAPI.addCoins(k.getUniqueId().toString(), Integer.valueOf(5));
 
             int maxkillstreak = FFAStatsAPI.getKillstreak(k.getUniqueId().toString()).intValue();
 
