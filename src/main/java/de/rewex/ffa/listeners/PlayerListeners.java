@@ -1,5 +1,6 @@
 package de.rewex.ffa.listeners;
 
+import de.rewex.ffa.Main;
 import de.rewex.ffa.commands.BuildCmd;
 import de.rewex.ffa.manager.LocationManager;
 import org.bukkit.GameMode;
@@ -15,16 +16,14 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class PlayerListeners implements Listener {
 
-    Location spawn = LocationManager.getLocation("spawn");
-
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if(e.getEntity() instanceof Player) {
 
             Location ploc = e.getEntity().getLocation();
-            int dist = (int) spawn.distance(ploc);
+            int dist = (int) Main.getInstance().mapswitcher.getSpawn().distance(ploc);
 
-            if(ploc.getY() >= 17) {
+            if(dist > Main.getInstance().mapswitcher.getProtection()) {
                 e.setCancelled(true);
             }
         }
@@ -35,12 +34,10 @@ public class PlayerListeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
 
         Location ploc = e.getPlayer().getLocation();
-        int dist = (int) spawn.distance(ploc);
+        int dist = (int) Main.getInstance().mapswitcher.getSpawn().distance(ploc);
 
-        if(ploc.getY() > 17) {
-            if(e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                e.setCancelled(true);
-            }
+        if(dist > Main.getInstance().mapswitcher.getProtection()) {
+            e.setCancelled(true);
         }
 
     }

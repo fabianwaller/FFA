@@ -32,7 +32,11 @@ public class ScoreAPI {
 
         obj.getScore("§1").setScore(12);
         obj.getScore("§8•§7● Map").setScore(11);
-        obj.getScore("§8➜ §dNature").setScore(10);
+        String map = Main.getInstance().mapswitcher.getMap();
+        char first = map.charAt(0);
+        first = Character.toUpperCase(first);
+        map = map.replaceFirst(String.valueOf(map.charAt(0)), String.valueOf(first));
+        obj.getScore("§8➜ §d" + map).setScore(10);
         obj.getScore("§d").setScore(9);
         obj.getScore("§8•§7● Kills").setScore(8);
         obj.getScore(updateTeam(sb, "Kills", "§8➜ §d" + kills, "", ChatColor.AQUA)).setScore(7);

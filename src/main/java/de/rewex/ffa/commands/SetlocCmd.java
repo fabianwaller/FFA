@@ -27,11 +27,13 @@ public class SetlocCmd implements CommandExecutor {
             p.sendMessage(Main.noperm);
             return true;
         }
-        if (args.length != 1) {
-            p.sendMessage(Main.prefix + "§c/setlocation <Name>");
+        if (args.length != 2) {
+            p.sendMessage(Main.prefix + "§c/setlocation <Name> <Protection>");
         }
         else {
-            LocationManager.setLocation(args[0], p.getLocation());
+            int protection = Integer.parseInt(args[1]);
+
+            LocationManager.setLocation(args[0],p.getLocation(), protection);
             p.sendMessage(Main.prefix + "§7Du hast die Location §6" + args[0] + "§7 erfolgreich gesetzt.");
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 3.0F, 2.0F);
         }

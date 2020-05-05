@@ -33,7 +33,8 @@ public class LocationManager {
         }
     }
 
-    public static void setLocation(String name, Location loc) {
+    public static void setLocation(String name, Location loc,  int protection) {
+        cfg.set(name + ".protection", Integer.valueOf(protection));
         cfg.set(name + ".world", loc.getWorld().getName());
         cfg.set(name + ".x", Double.valueOf(loc.getX()));
         cfg.set(name + ".y", Double.valueOf(loc.getY()));
@@ -58,6 +59,14 @@ public class LocationManager {
         loc.setYaw(cfg.getInt(name + ".yaw"));
         loc.setPitch(cfg.getInt(name + ".pitch"));
         return loc;
+    }
+
+    public static String getMapname(String name) {
+        return cfg.getString(name + ".world");
+    }
+
+    public static int getProtectionRadius(String name) {
+        return cfg.getInt(name + ".protection");
     }
 
     public static void telLocation(Player p, String name) {

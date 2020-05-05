@@ -23,7 +23,7 @@ public class StatsCmd implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        p.sendMessage("Stats bald verfügbar");
+        p.sendMessage(Main.prefix + "Deine Stats findest du im Scoreboard. Stats von anderen Spielern sind bald verfügbar!");
 
         return true;
     }

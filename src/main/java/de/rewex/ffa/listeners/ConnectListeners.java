@@ -57,7 +57,7 @@ public class ConnectListeners implements Listener {
             level++;
             k.setLevel(level);
             //k.setHealth(20.0D);
-            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*4,2));
+            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*5,4));
             InventoryHandler.update(k);
 
             FFAStatsAPI.addKills(k.getUniqueId().toString(), Integer.valueOf(1));

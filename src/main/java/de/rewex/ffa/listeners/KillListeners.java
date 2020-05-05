@@ -45,7 +45,7 @@ public class KillListeners implements Listener {
             k.setLevel(level);
             //k.setHealth(20.0D);
             InventoryHandler.update(k);
-            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*4,2));
+            k.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*5,3));
 
             FFAStatsAPI.addKills(k.getUniqueId().toString(), Integer.valueOf(1));
             PlayersAPI.addCoins(k.getUniqueId().toString(), Integer.valueOf(5));
@@ -101,13 +101,12 @@ public class KillListeners implements Listener {
     public void onKillstreak(PlayerLevelChangeEvent e) {
         Player k = e.getPlayer();
 
-        if ((k.getLevel() == 3) || (k.getLevel() == 5) || (k.getLevel() == 10) || (k.getLevel() == 11)
-                || (k.getLevel() == 12) || (k.getLevel() == 13) || (k.getLevel() == 14) || (k.getLevel() == 15)
+        if ((k.getLevel() == 3) || (k.getLevel() == 5) || (k.getLevel() == 10) || (k.getLevel() == 15)
                 || (k.getLevel() == 20) || (k.getLevel() == 25) || (k.getLevel() == 30) || (k.getLevel() == 35)
                 || (k.getLevel() == 36) || (k.getLevel() == 37) || (k.getLevel() == 38) || (k.getLevel() == 39)
                 || (k.getLevel() == 40) || (k.getLevel() == 45) || (k.getLevel() == 50)) {
             Bukkit.broadcastMessage(Main.prefix + RangManager.getName(k) + " §7hat einen §9" + k.getLevel() + "§7-er §9Killstreak");
-            k.sendMessage(Main.prefix + "§9" + k.getLevel() + "er Killstreak §7> §8[§a+ §b" + k.getLevel() + " Coins§8]");
+            k.sendMessage(Main.prefix + "§9" + k.getLevel() + "er Killstreak §8● §8[§a+ §b" + k.getLevel() + " Coins§8]");
             PlayersAPI.addCoins(k.getUniqueId().toString(), k.getLevel());
             k.playSound(k.getLocation(), Sound.LEVEL_UP, 12.0F, 12.0F);
         }

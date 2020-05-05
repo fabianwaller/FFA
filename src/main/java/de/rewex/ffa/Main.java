@@ -12,9 +12,12 @@ import de.rewex.ffa.listeners.KillListeners;
 import de.rewex.ffa.listeners.MapProtect;
 import de.rewex.ffa.listeners.PlayerListeners;
 import de.rewex.ffa.manager.AntilabyFeatures;
+import de.rewex.ffa.manager.LocationManager;
+import de.rewex.ffa.manager.MapSwitcher;
 import de.rewex.ffa.manager.ScoreAPI;
 import de.rewex.mysql.MySQL;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -23,14 +26,15 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
-    public static String prefix = "§7» §dFFA §7| ";
-    public static String passpr = "§7» §6Gamepass §7| ";
+    public static String prefix = "§5•§d● FFA §7| ";
+    public static String passpr = "§e•§6● Gamepass §7| ";
     public static String noperm = prefix + "§cDazu hast du keine Rechte§8!";
     public static String offplayer = prefix + "§cDieser Spieler ist offline§8!";
     public static String noplayer = "[FFA] Nur ein Spieler kann diesen Befehl ausführen";
 
     public static Main instance;
     public JoinState state;
+    public MapSwitcher mapswitcher;
     public static Main getInstance() {
         return instance;
     }
@@ -39,6 +43,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     public void onEnable() {
         instance = this;
         state = JoinState.JOIN;
+        mapswitcher = new MapSwitcher();
 
         getServer().getMessenger().registerOutgoingPluginChannel(Main.getInstance(), "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "LABYMOD");
@@ -55,6 +60,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
 
         ScoreAPI.startUpdater();
+        mapswitcher.startCounter();
         updateMotd();
         Bukkit.getConsoleSender().sendMessage(Main.prefix + "§aPlugin aktiviert §7[§a" + getDescription().getVersion() + "]");
     }
@@ -69,8 +75,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         getCommand("setlocation").setExecutor(new SetlocCmd(this));
         getCommand("spawn").setExecutor(new SpawnCmd(this));
         getCommand("stats").setExecutor(new StatsCmd(this));
-
-
 
     }
 
