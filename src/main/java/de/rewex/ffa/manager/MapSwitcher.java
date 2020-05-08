@@ -9,9 +9,9 @@ import org.bukkit.WorldCreator;
 
 public class MapSwitcher {
 
-    private Location spawn = LocationManager.getLocation("spawn1");
-    private String map = LocationManager.getMapname("spawn1");
-    private int protection = LocationManager.getProtectionRadius("spawn1");
+    private Location spawn;
+    private String map;
+    private int protection;
 
     int seconds = 15 * TimeUnit.getUnit("min").getToSecond();
     int currentseconds = seconds;
@@ -19,6 +19,12 @@ public class MapSwitcher {
     int current = 1;
 
     int taskid;
+
+    public MapSwitcher() {
+        this.spawn = LocationManager.getLocation("spawn1");
+        this.map = LocationManager.getMapname("spawn1");
+        this.protection = LocationManager.getProtectionRadius("spawn1");
+    }
 
     public void startCounter() {
         taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
@@ -73,7 +79,7 @@ public class MapSwitcher {
     }
 
     public Location getSpawn() {
-        return spawn;
+        return this.spawn;
     }
 
     public String getMap() {

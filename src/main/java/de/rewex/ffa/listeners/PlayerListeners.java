@@ -3,6 +3,7 @@ package de.rewex.ffa.listeners;
 import de.rewex.ffa.Main;
 import de.rewex.ffa.commands.BuildCmd;
 import de.rewex.ffa.manager.LocationManager;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -21,9 +22,10 @@ public class PlayerListeners implements Listener {
         if(e.getEntity() instanceof Player) {
 
             Location ploc = e.getEntity().getLocation();
-            int dist = (int) Main.getInstance().mapswitcher.getSpawn().distance(ploc);
+            Location spawn = Main.getInstance().mapswitcher.getSpawn();
+            int dist = (int) ploc.distance(spawn);
 
-            if(dist > Main.getInstance().mapswitcher.getProtection()) {
+            if(dist <= Main.getInstance().mapswitcher.getProtection()) {
                 e.setCancelled(true);
             }
         }
@@ -36,7 +38,7 @@ public class PlayerListeners implements Listener {
         Location ploc = e.getPlayer().getLocation();
         int dist = (int) Main.getInstance().mapswitcher.getSpawn().distance(ploc);
 
-        if(dist > Main.getInstance().mapswitcher.getProtection()) {
+        if(dist <= Main.getInstance().mapswitcher.getProtection()) {
             e.setCancelled(true);
         }
 

@@ -86,7 +86,7 @@ public class KillListeners implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e) {
         InventoryHandler.setFFA(e.getPlayer());
-        e.setRespawnLocation(LocationManager.getLocation("spawn"));
+        e.setRespawnLocation(Main.getInstance().mapswitcher.getSpawn());
     }
 
     public void Respawn(final Player p, int Time) {

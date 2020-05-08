@@ -1,23 +1,15 @@
 package de.rewex.ffa;
 
-import de.dytanic.cloudnet.driver.CloudNetDriver;
-import de.dytanic.cloudnet.driver.event.IEventManager;
+import de.rewex.anitcheat.Autoclicker;
 import de.rewex.ffa.chat.ChatListeners;
-import de.rewex.ffa.commands.BuildCmd;
-import de.rewex.ffa.commands.SetlocCmd;
-import de.rewex.ffa.commands.SpawnCmd;
-import de.rewex.ffa.commands.StatsCmd;
+import de.rewex.ffa.commands.*;
 import de.rewex.ffa.listeners.ConnectListeners;
 import de.rewex.ffa.listeners.KillListeners;
 import de.rewex.ffa.listeners.MapProtect;
 import de.rewex.ffa.listeners.PlayerListeners;
-import de.rewex.ffa.manager.AntilabyFeatures;
-import de.rewex.ffa.manager.LocationManager;
-import de.rewex.ffa.manager.MapSwitcher;
-import de.rewex.ffa.manager.ScoreAPI;
+import de.rewex.ffa.manager.*;
 import de.rewex.mysql.MySQL;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -35,6 +27,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     public static Main instance;
     public JoinState state;
     public MapSwitcher mapswitcher;
+
+    public boolean nohitdelay = false;
+
     public static Main getInstance() {
         return instance;
     }
@@ -60,8 +55,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
 
         ScoreAPI.startUpdater();
-        mapswitcher.startCounter();
+        //mapswitcher.startCounter();
         updateMotd();
+
         Bukkit.getConsoleSender().sendMessage(Main.prefix + "§aPlugin aktiviert §7[§a" + getDescription().getVersion() + "]");
     }
 
@@ -72,6 +68,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     private void registerCommands() {
         getCommand("build").setExecutor(new BuildCmd(this));
+        //getCommand("nohitdelay").setExecutor(new NoHitDelayCmd(this));
         getCommand("setlocation").setExecutor(new SetlocCmd(this));
         getCommand("spawn").setExecutor(new SpawnCmd(this));
         getCommand("stats").setExecutor(new StatsCmd(this));
@@ -92,6 +89,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         //de.rewex.ffa.manager
         pm.registerEvents(new AntilabyFeatures(), this);
+        pm.registerEvents(new Autoclicker(), this);
 
     }
 

@@ -34,11 +34,9 @@ public class ConnectListeners implements Listener {
 
         TitleAPI.sendTitle(p, 5, 60, 5, "§d§lFFA", "§fNature");
         ScoreAPI.setScoreboard(p);
-        TitleAPI.sendTabTitle(p, "\n   §9§lRewex.de §8× §7Dein Minigames Netzwerk   "
-                        + "\n§7Derzeitiger Server §8× §dFFA #1"
-                        + "\n ",
-                "\n §cHacker§7? §c/report"
-                        + "\n ");
+        if(Main.getInstance().nohitdelay == true) {
+            p.setMaximumNoDamageTicks(1);
+        }
     }
 
     @EventHandler
@@ -69,6 +67,7 @@ public class ConnectListeners implements Listener {
             if(k.getLevel()>maxkillstreak) {
                 FFAStatsAPI.setKillstreak(e.getPlayer().getUniqueId().toString(), Integer.valueOf(k.getLevel()));
             }
+
 
         }
     }
